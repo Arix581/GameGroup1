@@ -7,6 +7,7 @@ public class Spawner : MonoBehaviour
     public float spawnTime = 10f;
     public GameObject prefab;
     public float spawnOffset = 5f;
+    public float spawnDistance = 15f;
 
     [SerializeField] private float timer;
 
@@ -29,6 +30,9 @@ public class Spawner : MonoBehaviour
 
     public void Spawn()
     {
-        Instantiate(prefab, transform.position, transform.rotation);
+        var vector2 = Random.insideUnitCircle.normalized * spawnDistance;
+        Vector3 position = new Vector3(vector2.x, 0, vector2.y);
+        
+        Instantiate(prefab, position, transform.rotation);
     }
 }

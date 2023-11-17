@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EnemyHealthScript : HealthScript
 {
-    public FloatObject points;
-    public float pointsOnDeath;
+    //public FloatObject points;
+    //public float pointsOnDeath;
     public override void Die()
     {
         base.Die();
-        points.value += pointsOnDeath;
+        //points.value += pointsOnDeath;
         Destroy(gameObject);
     }
 }
