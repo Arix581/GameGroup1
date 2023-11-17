@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(order = 2)]
 public class FloatObject : ScriptableObject
 {
     public float value;
     public float defaultValue;
 
-    public void Equals(FloatObject other)
+    public virtual void Reset()
     {
-        value = other.value;
+        value = defaultValue;
+    }
+
+    public virtual void Add(float other)
+    {
+        value += other;
     }
 }
