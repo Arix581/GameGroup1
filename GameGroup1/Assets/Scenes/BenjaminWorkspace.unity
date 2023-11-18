@@ -167,11 +167,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7a85c7a474844c093182a0694729b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 2
-  prefab: {fileID: 393930041425866212, guid: fe819654c163c4641bb36e34217a910e, type: 3}
-  spawnOffset: 1
   spawnDistance: 15
-  timer: 0
+  sessions:
+  - stats: {fileID: 0}
+    startTime: 0
+    ramp: 0
+    timer: 0
+    prefab: {fileID: 393930041425866212, guid: fe819654c163c4641bb36e34217a910e, type: 3}
+    interval: 10
+  globalTimer: 0
 --- !u!1 &235043117
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1071868602}
   - component: {fileID: 1071868600}
+  - component: {fileID: 1071868605}
   - component: {fileID: 1071868603}
   - component: {fileID: 1071868604}
   m_Layer: 0
@@ -680,6 +685,22 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1071868605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071868599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76d78fdcd56914b14ba2bae00564ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  maxHealth: 10
+  playerHealth: {fileID: 11400000, guid: 5c83b0bf31a67964aa88c3c24980c0c7, type: 2}
+  resistanceMultiplier: 1
 --- !u!1 &1314055399
 GameObject:
   m_ObjectHideFlags: 0

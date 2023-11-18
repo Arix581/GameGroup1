@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerHealthScript : HealthScript
 {
     public FloatObject playerHealth;
-    public BoolObject playedBefore;
     public float resistanceMultiplier = 1;
 
     public override void TakeDamage(float Amount)
@@ -18,9 +17,6 @@ public class PlayerHealthScript : HealthScript
 
     public override void OnStartHealth()
     {
-        if (!playedBefore.value)
-        {
-            playerHealth.Reset();
-        }
+        playerHealth.Reset();
     }
 }
