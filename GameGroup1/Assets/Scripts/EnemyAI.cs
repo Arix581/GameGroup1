@@ -4,28 +4,39 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float speed = 5f;
+    [Header("Stats")]
+    public float speed = 4.5f;
     public float damage = 1f;
-    public float damageInterval = 2.5f;
+    public bool canDash;
 
-    [SerializeField] private float damageTimer = 0f;
+    [Space]
+    public EnemyStats stats;
+
+    [Space]
+    public float dashWindup = 2.5f;
+    public float dashSpeed = 9f;
+    public float dashDuration = 2f;
+    public float dashWinddown = 2f;
+    public Vector3 dashTarget;
+    public float dashTimer;
 
     private GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        damageTimer = 0f;
         player = GameObject.FindGameObjectWithTag("player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        damageTimer += Time.deltaTime;
-        //Vector3 toMove = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-        //transform.position = toMove;
-        if (player != null)
+        if (player != null && canDash)
+        {
+            dashTimer += Time.deltaTime;
+            dashTarget = DashControl(dashTarget);
+        }
+        else if (player != null)
         {
             Vector3 target = player.transform.position;
             transform.LookAt(target);
@@ -36,10 +47,37 @@ public class EnemyAI : MonoBehaviour
 
     public void DamagePlayer()
     {
-        if (damageTimer >= damageInterval)
+        player.GetComponent<PlayerHealthScript>().TakeDamage(damage);
+    }
+
+    public void LoadStats()
+    {
+        speed = stats.speed;
+        damage = stats.damage;
+        canDash = stats.canDash;
+    }
+
+    public Vector3 DashControl(Vector3 target)
+    {
+        if (TimerBetween(dashTimer, 0f, dashWindup)) 
         {
-            damageTimer = 0f;
-            player.GetComponent<PlayerHealthScript>().TakeDamage(damage);
+            return player.transform.position;
         }
+        else if (TimerBetween(dashTimer, dashWindup, dashWindup + dashDuration))
+        {
+            transform.LookAt(target);
+            Vector3 movement = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
+            transform.position = movement;
+        }
+        else if (dashTimer >= dashWindup + dashDuration + dashWinddown)
+        {
+            dashTimer = 0;
+        }
+        return target;
+    }
+
+    public bool TimerBetween(float timer, float start, float end)
+    {
+        return timer >= start && timer <= end;
     }
 }

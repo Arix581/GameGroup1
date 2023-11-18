@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class EnemyStats : ScriptableObject
 {
-    public float speed = 5f;
-    public float damageInterval = 2.5f;
+    public float speed = 4.5f;
+    public float damage = 1f;
     public bool canDash = false;
 }
