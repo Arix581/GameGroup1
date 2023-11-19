@@ -59,11 +59,11 @@ public class EnemyAI : MonoBehaviour
 
     public Vector3 DashControl(Vector3 target)
     {
-        if (TimerBetween(dashTimer, 0f, dashWindup)) 
+        if (Timer.TimerBetween(dashTimer, 0f, dashWindup)) 
         {
             return player.transform.position;
         }
-        else if (TimerBetween(dashTimer, dashWindup, dashWindup + dashDuration))
+        else if (Timer.TimerBetween(dashTimer, dashWindup, dashWindup + dashDuration))
         {
             transform.LookAt(target);
             Vector3 movement = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
@@ -75,8 +75,11 @@ public class EnemyAI : MonoBehaviour
         }
         return target;
     }
+}
 
-    public bool TimerBetween(float timer, float start, float end)
+static class Timer
+{
+    static public bool TimerBetween(float timer, float start, float end)
     {
         return timer >= start && timer <= end;
     }
