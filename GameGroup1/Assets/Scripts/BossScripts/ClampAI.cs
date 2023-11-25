@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClampAI : MonoBehaviour
 {
-    public GameObject[] clamps;
+    public GameObject clampHolder;
     public float clampScale = 1f;
 
     public float clampAttackCooldown = 10f;
@@ -29,21 +29,28 @@ public class ClampAI : MonoBehaviour
         clampAttackTimer -= Time.deltaTime;
         if (clampAttackTimer <= 0)
         {
-            ClampAttack(player.transform.position);
+            ClampAttack();
         }
     }
 
     public void ClampsSetActive(bool state)
     {
-        for (int i = 0; i < clamps.Length; i++)
-        {
-            clamps[i].SetActive(state);
-        }
+        clampHolder.SetActive(state);
     }
 
-    public Vector3 ClampAttack(Vector3 target)
+    public void ClampAttack()
     {
-        
-        return target;
+        Vector3 target = eai.target;
+
+        clampHolder.transform.position = target;
+        clampHolder.transform.localScale = new Vector3(
+            clampHolder.transform.localScale.x - Time.deltaTime, 
+            clampHolder.transform.localScale.y - Time.deltaTime,
+            clampHolder.transform.localScale.z - Time.deltaTime);
+    }
+
+    public void SetClamps(float size)
+    {
+        clampHolder.transform.localScale = new Vector3(size, size, size);
     }
 }

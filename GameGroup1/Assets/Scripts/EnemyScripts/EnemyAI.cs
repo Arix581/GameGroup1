@@ -6,6 +6,7 @@ public class EnemyAI : MonoBehaviour
 {
     [Header("Stats")]
     public float speed = 4.5f;
+    public bool ableToMove = true;
     public float damage = 1f;
     public bool canDash;
 
@@ -17,7 +18,7 @@ public class EnemyAI : MonoBehaviour
     public float dashSpeed = 9f;
     public float dashDuration = 2f;
     public float dashWinddown = 2f;
-    public Vector3 dashTarget;
+    public Vector3 target;
     public float dashTimer;
 
     private GameObject player;
@@ -31,16 +32,16 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player != null && canDash)
+        if (false && player != null && canDash)
         {
             dashTimer += Time.deltaTime;
-            dashTarget = DashControl(dashTarget);
+            target = DashControl(target);
         }
         else if (player != null)
         {
             Vector3 target = player.transform.position;
             transform.LookAt(target);
-            Vector3 movement = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            Vector3 movement = Vector3.MoveTowards(transform.position, target, (ableToMove ? speed : 0) * Time.deltaTime);
             transform.position = movement;
         }
     }
@@ -61,19 +62,34 @@ public class EnemyAI : MonoBehaviour
     {
         if (Timer.TimerBetween(dashTimer, 0f, dashWindup)) 
         {
-            return player.transform.position;
+            Target();
         }
         else if (Timer.TimerBetween(dashTimer, dashWindup, dashWindup + dashDuration))
         {
-            transform.LookAt(target);
-            Vector3 movement = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
-            transform.position = movement;
+            Dash(dashSpeed);
         }
         else if (dashTimer >= dashWindup + dashDuration + dashWinddown)
         {
             dashTimer = 0;
         }
         return target;
+    }
+
+    public void Target()
+    {
+        target = player.transform.position;
+    }
+
+    public void Dash(float speed)
+    {
+        transform.LookAt(target);
+        Vector3 movement = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        transform.position = movement;
+    }
+
+    public void MovementOn(bool status)
+    {
+        ableToMove = status;
     }
 }
 
